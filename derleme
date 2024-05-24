@@ -4,6 +4,6 @@ cd
 rm -r programs_main
 pkill main.py
 git clone https://github.com/hisert/programs_main.git
-cd  programs_oled
+cd  programs_main
 chmod +x derleme
 python3 main.py
