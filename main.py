@@ -8,7 +8,8 @@ def check_veri(dosya_adi):
         print("Dosya mevcut değil. Oluşturuluyor...")
         try:
             with open(dosya_adi, "w") as dosya:
-                print("Dosya oluşturuldu:", dosya_adi)
+                dosya.write("empty")  # Dosyaya "empty" yaz
+                print("Dosya oluşturuldu ve içine 'empty' yazıldı:", dosya_adi)
         except Exception as hata:
             print("Dosya oluşturulurken bir hata oluştu:", hata)
 
