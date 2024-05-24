@@ -1,7 +1,10 @@
 import socket
-import sys
 
-def main(server, port):
+def main():
+    # Sunucu adresi ve port numarası
+    server = "127.0.0.1"
+    port = 12345
+
     # Sunucuya bağlan
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,7 +12,7 @@ def main(server, port):
         print("Sunucuya bağlandı:", server, port)
     except Exception as e:
         print("Bağlantı hatası:", e)
-        sys.exit(1)
+        return
 
     # Sunucudan mesaj al ve konsola yazdır
     try:
@@ -26,10 +29,4 @@ def main(server, port):
     print("Bağlantı kapatıldı")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Kullanım: python client.py <server> <port>")
-        sys.exit(1)
-
-    server = sys.argv[1]
-    port = int(sys.argv[2])
-    main(server, port)
+    main()
