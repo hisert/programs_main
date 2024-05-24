@@ -18,7 +18,7 @@ def kayit_ekle(mesaj):
 
 def main():
     # Sunucu adresi ve port numarası
-    server = "192.168.11.216"
+    server = "127.0.0.1"
     port = 12345
 
     # Kayıtları oku
@@ -39,10 +39,9 @@ def main():
             message = client_socket.recv(1024)
             if not message:
                 break
-            message_str = message.decode()
-            print("Sunucudan gelen mesaj:", message_str)
+            print("Sunucudan gelen mesaj:", message)
             # Kaydı dosyaya ekle
-            kayit_ekle(message_str)
+            kayit_ekle(message.decode())
     except Exception as e:
         print("Mesaj alınırken hata oluştu:", e)
 
