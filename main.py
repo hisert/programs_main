@@ -1,9 +1,28 @@
 import socket
 
+# Dosya adı
+dosya_adi = "kayitlar.txt"
+
+def kayit_oku():
+    try:
+        with open(dosya_adi, "r") as dosya:
+            for line in dosya:
+                print("Kaydedilen mesaj:", line.strip())
+    except FileNotFoundError:
+        print("Kayıt dosyası bulunamadı.")
+
+def kayit_ekle(mesaj):
+    with open(dosya_adi, "w") as dosya:
+        dosya.write(mesaj + "\n")
+        print("Yeni mesaj kaydedildi:", mesaj)
+
 def main():
     # Sunucu adresi ve port numarası
     server = "192.168.11.216"
     port = 12345
+
+    # Kayıtları oku
+    kayit_oku()
 
     # Sunucuya bağlan
     try:
@@ -20,7 +39,10 @@ def main():
             message = client_socket.recv(1024)
             if not message:
                 break
-            print("Sunucudan gelen mesaj:", message.decode())
+            message_str = message.decode()
+            print("Sunucudan gelen mesaj:", message_str)
+            # Kaydı dosyaya ekle
+            kayit_ekle(message_str)
     except Exception as e:
         print("Mesaj alınırken hata oluştu:", e)
 
