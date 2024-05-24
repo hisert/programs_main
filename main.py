@@ -31,8 +31,14 @@ def degeri_oku(degisken_adi):
 
 def degeri_guncelle(degisken_adi, yeni_deger):
     try:
-        with open("veri.json", "r") as dosya:
-            veri = json.load(dosya)
+        with open("veri.json", "r+") as dosya:
+            dosya_icerigi = dosya.read().strip()  # Dosyanın içeriğini oku ve başındaki ve sonundaki boşlukları temizle
+            if dosya_icerigi == "empty":
+                dosya.seek(0)  # Dosyanın başına git
+                dosya.truncate()  # Dosyanın içeriğini sil
+                dosya.write("{}")  # Boş bir JSON objesi yaz
+                dosya_icerigi = "{}"  # Dosya içeriğini güncelle
+            veri = json.loads(dosya_icerigi)  # Dosya içeriğini JSON olarak yükle
     except FileNotFoundError:
         print("Dosya bulunamadı.")
         return
