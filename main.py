@@ -1,4 +1,19 @@
+import os
 import json
+
+def check_veri(dosya_adi):
+    if os.path.exists(dosya_adi):
+        print("Dosya mevcut.")
+    else:
+        print("Dosya mevcut değil. Oluşturuluyor...")
+        try:
+            with open(dosya_adi, "w") as dosya:
+                print("Dosya oluşturuldu:", dosya_adi)
+        except Exception as hata:
+            print("Dosya oluşturulurken bir hata oluştu:", hata)
+
+# Kullanım örneği
+check_veri("veri.json")
 
 def degeri_oku(degisken_adi):
     try:
