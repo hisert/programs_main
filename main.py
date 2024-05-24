@@ -18,7 +18,7 @@ def kayit_ekle(mesaj):
 
 def main():
     # Sunucu adresi ve port numarası
-    server = "127.0.0.1"
+    server = "192.168.137.84"
     port = 12345
 
     # Kayıtları oku
