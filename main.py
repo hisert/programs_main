@@ -1,53 +1,40 @@
-import socket
+import json
 
-# Dosya adı
-dosya_adi = "kayitlar.txt"
-
-def kayit_oku():
+def degeri_oku(degisken_adi):
     try:
-        with open(dosya_adi, "r") as dosya:
-            for line in dosya:
-                print("Kaydedilen mesaj:", line.strip())
+        with open("veri.json", "r") as dosya:
+            veri = json.load(dosya)
+            return veri.get(degisken_adi)
     except FileNotFoundError:
-        print("Kayıt dosyası bulunamadı.")
+        print("Dosya bulunamadı.")
+        return None
 
-def kayit_ekle(mesaj):
-    with open(dosya_adi, "w") as dosya:
-        dosya.write(mesaj + "\n")
-        print("Yeni mesaj kaydedildi:", mesaj)
-
-def main():
-    # Sunucu adresi ve port numarası
-    server = "192.168.11.216"
-    port = 12345
-
-    # Kayıtları oku
-    kayit_oku()
-
-    # Sunucuya bağlan
+def degeri_guncelle(degisken_adi, yeni_deger):
     try:
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((server, port))
-        print("Sunucuya bağlandı:", server, port)
-    except Exception as e:
-        print("Bağlantı hatası:", e)
+        with open("veri.json", "r") as dosya:
+            veri = json.load(dosya)
+    except FileNotFoundError:
+        print("Dosya bulunamadı.")
         return
 
-    # Sunucudan mesaj al ve konsola yazdır
-    try:
-        while True:
-            message = client_socket.recv(1024)
-            if not message:
-                break
-            print("Sunucudan gelen mesaj:", message)
-            # Kaydı dosyaya ekle
-            kayit_ekle(message.decode())
-    except Exception as e:
-        print("Mesaj alınırken hata oluştu:", e)
+    veri[degisken_adi] = yeni_deger
 
-    # Bağlantıyı kapat
-    client_socket.close()
-    print("Bağlantı kapatıldı")
+    with open("veri.json", "w") as dosya:
+        json.dump(veri, dosya)
 
-if __name__ == "__main__":
-    main()
+# Değeri okuma
+secim = input("Hangi değeri okumak istiyorsunuz? (string_1 veya string_2): ")
+deger = degeri_oku(secim)
+if deger is not None:
+    print(f"Okunan değer ({secim}):", deger)
+
+# Değeri güncelleme
+secim = input("Hangi değeri güncellemek istiyorsunuz? (string_1 veya string_2): ")
+yeni_deger = input("Yeni değer: ")
+degeri_guncelle(secim, yeni_deger)
+
+# Güncellenmiş değeri okuma
+secim = input("Hangi değeri okumak istiyorsunuz? (string_1 veya string_2): ")
+deger = degeri_oku(secim)
+if deger is not None:
+    print(f"Güncellenmiş değer ({secim}):", deger)
